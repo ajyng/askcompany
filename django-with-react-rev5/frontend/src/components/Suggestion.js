@@ -12,7 +12,7 @@ export default function Suggestion() {
             <div className='username'>
                 Username
             </div>
-            <div classNAme='action'>
+            <div className='action'>
                 <Button size="small">Follow </Button>
             </div>
         </div>

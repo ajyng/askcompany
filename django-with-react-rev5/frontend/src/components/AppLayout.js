@@ -9,6 +9,7 @@ function AppLayout({ children }) {
 
     return (
         <div className="app">
+
             <div className="header">
                 <div className="page-title">
                     <img src={logo} alt='logo' style={{ width:'150px' }} />
@@ -22,7 +23,9 @@ function AppLayout({ children }) {
                     </Menu>
                 </div>
             </div>
+
             <div className="contents">{children}</div>
+            
             <div className="sidebar">
                 <StoryList style={{ marginBottom: '1rem' }} />
                 <SuggestionList />
