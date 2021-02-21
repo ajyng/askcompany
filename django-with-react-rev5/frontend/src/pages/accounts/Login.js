@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Card, Form, Button, Input, notification } from 'antd';
 import { SmileOutlined, FrownOutlined } from '@ant-design/icons';
 import Axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useAppContext, setToken } from 'store';
 
 export default function Login() {
     const { dispatch } = useAppContext(); 
     const history = useHistory();
+    const location = useLocation();
     const [fieldErrors, setFieldErrors] = useState({});
 
     const onFinish = values => {
         async function fn() {
             const { username, password } = values;
             const data = { username, password };
-
+            const { from: loginRedirectUrl } = location.state || {from: { pathname: "/" }};
             setFieldErrors({});
 
             try {
@@ -27,7 +28,7 @@ export default function Login() {
                     message: "로그인 성공",
                     icon: <SmileOutlined style={{ color: "#108ee9" }} />
                 });
-                // TODO: history.push("/accounts/login"); 
+                history.push(loginRedirectUrl); 
             }
             catch(error) {
                 notification.open({
