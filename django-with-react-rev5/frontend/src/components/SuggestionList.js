@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
 import "./SuggestionList.scss";
@@ -8,11 +9,31 @@ import { useAppContext } from 'store';
 const SuggestionList = () => {
     const { store: {jwtToken} } = useAppContext();
     const headers = { Authorization: `JWT ${jwtToken}` };
+    const [userList, setUserList] = useState([]);
 
-    const [{data: userList, loading, error}, refetch] = useAxios({
+    const [{data: origUserList, loading, error}, refetch] = useAxios({
         url: "http://localhost:8000/accounts/suggestions/",
         headers,
     });
+
+    useEffect(() => {
+        if(!origUserList) setUserList([]);
+        else setUserList(origUserList.map(user => ({...user, is_follow: false})));
+    }, [origUserList]);
+
+    const onFollowUser = username => {
+        Axios.post("http://localhost:8000/accounts/follow/", {username}, {headers})
+            .then(response => {
+                setUserList(prevUserList => 
+                    prevUserList.map(user =>
+                        user.username !== username ? user : {...user, is_follow: true}
+                        )
+                    )
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     return (
         <div>
@@ -21,7 +42,7 @@ const SuggestionList = () => {
 
             <Card title="Suggestions for you">
                 {userList && userList.map(suggestionUser => (
-                    <Suggestion key={suggestionUser.username} suggestionUser={suggestionUser} />
+                    <Suggestion onFollowUser={onFollowUser} key={suggestionUser.username} suggestionUser={suggestionUser} />
                 ))}
             </Card>
         </div>

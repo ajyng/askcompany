@@ -12,12 +12,12 @@ class PostViewSet(ModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        timesince = timezone.now() - timedelta(days=3)
+        # timesince = timezone.now() - timedelta(days=3)
 
         qs = super().get_queryset()
         qs = qs.filter(
             Q(author=self.request.user)|
             Q(author__in=self.request.user.following_set.all())
         )
-        qs = qs.filter(created_at__gte=timesince)
+        # qs = qs.filter(created_at__gte=timesince)
         return qs
