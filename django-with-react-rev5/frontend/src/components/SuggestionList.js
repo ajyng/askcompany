@@ -8,8 +8,8 @@ import { useAppContext } from 'store';
 
 const SuggestionList = () => {
     const { store: {jwtToken} } = useAppContext();
-    const headers = { Authorization: `JWT ${jwtToken}` };
     const [userList, setUserList] = useState([]);
+    const headers = { Authorization: `JWT ${jwtToken}` };
 
     const [{data: origUserList, loading, error}, refetch] = useAxios({
         url: "http://localhost:8000/accounts/suggestions/",

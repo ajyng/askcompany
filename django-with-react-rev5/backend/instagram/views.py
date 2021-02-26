@@ -8,7 +8,7 @@ from .models import Post
 from .serializers import PostSerializer
 
 class PostViewSet(ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().select_related('author').prefetch_related('tag_set', 'like_user_set')
     serializer_class = PostSerializer
 
     def get_queryset(self):
