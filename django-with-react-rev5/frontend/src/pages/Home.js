@@ -1,10 +1,31 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button } from 'antd';
 import PostList from 'components/PostList';
+import AppLayout from 'components/AppLayout';
+import StoryList from 'components/StoryList';
+import SuggestionList from 'components/SuggestionList';
 
 function Home() {
+    const history = useHistory();
+
+    const handleClick = () => {
+        history.push('/posts/new')
+    }
+
+    const sidebar = (
+        <>
+        <Button type="primary" onClick={handleClick} block style={{ marginBottom: '1rem' }}>새 포스팅 쓰기</Button>
+        <StoryList style={{ marginBottom: '1rem' }} />
+        <SuggestionList />
+        </>
+    );
+
     return (
-        <PostList />
-    )
+        <AppLayout sidebar={sidebar}>
+            <PostList />
+        </AppLayout>
+    );
 }
 
 export default Home;
