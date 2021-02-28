@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { PlusOutlined, FrownOutlined } from '@ant-design/icons';
 import { Form, Button, Input, Upload, Modal, notification } from 'antd';
 import getBase64FromFile from 'utils/base64';
-import Axios from 'axios';
+import { axiosInstance } from 'api';
 import { useAppContext } from 'store';
 import { parseErrorMessages } from 'utils/forms';
 
@@ -30,7 +30,7 @@ export default function PostNewForm() {
 
         const headers = { Authorization: `JWT ${jwtToken}`};
         try {
-            const response = await Axios.post("http://localhost:8000/api/posts/", formData, { headers });
+            const response = await axiosInstance.post("/api/posts/", formData, { headers });
             console.log("success response: ", response);
             history.push("/");
         }

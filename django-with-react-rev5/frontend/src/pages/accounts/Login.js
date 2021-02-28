@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Form, Button, Input, notification } from 'antd';
 import { SmileOutlined, FrownOutlined } from '@ant-design/icons';
-import Axios from 'axios';
+import { axiosInstance } from 'api';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useAppContext, setToken } from 'store';
 import { parseErrorMessages } from 'utils/forms';
@@ -20,7 +20,7 @@ export default function Login() {
             setFieldErrors({});
 
             try {
-                const response = await Axios.post("http://localhost:8000/accounts/token/", data);
+                const response = await axiosInstance.post("/accounts/token/", data);
                 const { data: {token: jwtToken} } = response; // response 내부에 토큰이 담겨있다.
                 
                 dispatch(setToken(jwtToken));
